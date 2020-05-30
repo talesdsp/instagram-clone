@@ -7,8 +7,9 @@
             <img width="100%" class="rounded-circle" src="https://images.pexels.com/photos/936317/pexels-photo-936317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
         </div>
         <div class="col-9">
-            <div class="bio">
-                <h1>Dogney</h1>
+            <div class="bio d-flex justify-content-between align-items-baseline">
+                <h1>{{$user->username}}</h1>
+                <a href="">add new post</a>
             </div>
 
             <div class="d-flex">
@@ -17,9 +18,10 @@
                 <div class="pr-5"><strong>821</strong> following</div>
             </div>
 
-            <div class="pt-4 font-weight-bold">dogney</div>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam dolores ratione dolore ad harum. Cupiditate.</div>
-            <div><a href="#" class="">dogs.oof</a></div>
+            <div class="pt-4 font-weight-bold">{{$profile->title}}</div>
+            <div>{{$profile->description}}</div>
+            <div><a href="#" class="">{{$profile->url}}</a></div>
+
         </div>
     </div>
 
