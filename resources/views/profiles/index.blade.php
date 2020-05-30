@@ -13,7 +13,7 @@
             </div>
 
             <div class="d-flex">
-                <div class="pr-5"><strong>30</strong> posts</div>
+            <div class="pr-5"><strong>{{$posts->count()}}</strong> posts</div>
                 <div class="pr-5"><strong>4k</strong> followers</div>
                 <div class="pr-5"><strong>821</strong> following</div>
             </div>
@@ -26,15 +26,13 @@
     </div>
 
     <div class="row pt-5">
-        <div class="col-4">
-            <img width="100%"  src="https://images.pexels.com/photos/936317/pexels-photo-936317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
+        @foreach ($posts as $post)
+        <div class="col-4 pb-5">
+            <a href="p/${{post->id}}">
+                <img width="100%"  src="/storage/{{$post->image}}" alt="">
+            </a>
         </div>
-        <div class="col-4">
-            <img width="100%"  src="https://images.pexels.com/photos/936317/pexels-photo-936317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-        </div>
-        <div class="col-4">
-            <img width="100%"  src="https://images.pexels.com/photos/936317/pexels-photo-936317.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="">
-        </div>
+        @endforeach
     </div>
 
 </div>
