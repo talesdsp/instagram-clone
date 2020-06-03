@@ -12,23 +12,25 @@
                 <a href="/p/create">add new post</a>
             </div>
 
+        <a href="/{{$user->username}}/edit">Edit Profile</a>
+
             <div class="d-flex">
-            <div class="pr-5"><strong>{{$posts->count()}}</strong> posts</div>
+                <div class="pr-5"><strong>{{$user->posts->count()}}</strong> posts</div>
                 <div class="pr-5"><strong>4k</strong> followers</div>
                 <div class="pr-5"><strong>821</strong> following</div>
             </div>
 
-            <div class="pt-4 font-weight-bold">{{$profile->title ?? ''}}</div>
-            <div>{{$profile->description ?? ''}}</div>
-            <div><a href="#" class="">{{$profile->url ?? ''}}</a></div>
+            <div class="pt-4 font-weight-bold">{{$user->profile->title ?? ''}}</div>
+            <div>{{$user->profile->description ?? ''}}</div>
+            <div><a href="#" class="">{{$user->profile->url ?? ''}}</a></div>
 
         </div>
     </div>
 
     <div class="row pt-5">
-        @foreach ($posts as $post)
+        @foreach ($user->posts as $post)
         <div class="col-4 pb-5">
-            <a href="p/${{post->id}}">
+            <a href="/p/{{$post->id}}">
                 <img width="100%"  src="/storage/{{$post->image}}" alt="">
             </a>
         </div>

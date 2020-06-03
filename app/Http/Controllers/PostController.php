@@ -15,10 +15,10 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        return view('posts\create');
     }
 
-    public function store(Request $request)
+    public function store()
     {
         $data = request()->validate([
             'caption' => 'required',
@@ -44,6 +44,11 @@ class PostController extends Controller
         ]);
 
         return redirect('/', auth()->user()->id);
+    }
+
+    public function show(\App\Post $post)
+    {
+        return view('post\show', ['post'=> $post]);
     }
 
 }
