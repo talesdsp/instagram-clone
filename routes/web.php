@@ -21,9 +21,52 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/{user}', 'ProfileController@index')->name('profile.show');
 
 
+/** ---------------------------------|
+ *                                   |
+ *              PROFILE              |
+ *                                   |
+ *  ---------------------------------|
+ */
+
+
+/**
+ * GET - user's profile page aka `dashboard`
+ */
+Route::get('/{user}', 'ProfileController@show')->name('profile.show');
+
+/**
+ * GET - form to edit bio
+ */
+Route::get('/{user}/edit', 'ProfileController@edit')->name('profile.edit');
+
+/**
+ * PATCH - updated bio
+ */
+Route::patch('/{user}', 'ProfileController@update')->name('profile.update');
+
+
+
+/** ---------------------------------|
+ *                                   |
+ *                POST               |
+ *                                   |
+ *  ---------------------------------|
+ */
+
+/**
+ * GET - form to create post
+ */
 Route::get('/p/create', 'PostController@create')->name('post.create');
+
+/**
+ * POST - new post
+ */
 Route::post("/p", "PostController@store")->name('post.store');
-Route::get('/p/{post}', 'PostController@index')->name('post.show');
+
+/**
+ * GET - Show clicked post
+ */
+Route::get('/p/{post}', 'PostController@show')->name('post.show');
+
