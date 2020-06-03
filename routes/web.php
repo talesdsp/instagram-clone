@@ -34,17 +34,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 /**
  * GET - user's profile page aka `dashboard`
  */
-Route::get('/{user}', 'ProfileController@show')->name('profile.show');
+Route::get('/{username}', 'ProfileController@show')->name('profile.show');
 
 /**
  * GET - form to edit bio
  */
-Route::get('/{user}/edit', 'ProfileController@edit')->name('profile.edit');
+Route::get('/{username}/edit', 'ProfileController@edit')->name('profile.edit');
 
 /**
  * PATCH - updated bio
  */
-Route::patch('/{user}', 'ProfileController@update')->name('profile.update');
+Route::patch('/{username}', 'ProfileController@update')->name('profile.update');
 
 
 
