@@ -19,54 +19,48 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-/** ---------------------------------|
- *                                   |
- *              PROFILE              |
- *                                   |
- *  ---------------------------------|
+
+/**----------------------------------
+ **             PROFILE
+ *-----------------------------------
+ *  All routes related to profile page
  */
 
-
-/**
- * GET - user's profile page aka `dashboard`
- */
+ 
+// GET - user's profile page aka `dashboard`
 Route::get('/{username}', 'ProfileController@show')->name('profile.show');
 
-/**
- * GET - form to edit bio
- */
+
+// GET - form to edit bio
 Route::get('/{username}/edit', 'ProfileController@edit')->name('profile.edit');
 
-/**
- * PATCH - updated bio
+
+// PATCH - updated bio
+Route::patch('/{username}', 'ProfileController@update')->name('profile.update'); 
+
+
+
+
+/**----------------------------------
+ **             POST
+ *-----------------------------------
+ *  All routes related to post
  */
-Route::patch('/{username}', 'ProfileController@update')->name('profile.update');
 
 
-
-/** ---------------------------------|
- *                                   |
- *                POST               |
- *                                   |
- *  ---------------------------------|
- */
-
-/**
- * GET - form to create post
- */
+// GET - form to create post
 Route::get('/p/create', 'PostController@create')->name('post.create');
 
-/**
- * POST - new post
- */
+
+// POST - new post
 Route::post("/p", "PostController@store")->name('post.store');
 
-/**
- * GET - Show clicked post
- */
-Route::get('/p/{post}', 'PostController@show')->name('post.show');
+
+// GET - clicked post
+Route::get('/p/{post_id}', 'PostController@show')->name('post.show');
 
