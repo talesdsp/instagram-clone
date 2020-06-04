@@ -34,7 +34,7 @@ class PostController extends Controller
 
         $imagePath = request('image')->store('uploads', $driver);
 
-        $image = Image::make(\public_path("storage/{$imagePath}"))->fit(1200, 1200);
+        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
 
         $image->save();
 
@@ -46,9 +46,9 @@ class PostController extends Controller
         return redirect('/', auth()->user()->id);
     }
 
-    public function show(\App\Post $post)
+    public function show(\App\Post $post_id)
     {
-        return view('post\show', ['post'=> $post]);
+        return view('posts\show', ['post'=> $post_id]);
     }
 
 }
