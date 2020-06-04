@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <form action="/{{ $user->id }}" enctype="multipart/form-data" method="POST" >
+  <form action="/{{ $user->username }}" enctype="multipart/form-data" method="POST" >
     @csrf
     @method('PATCH')
     
@@ -17,7 +17,7 @@
         <div class="form-group row">
           
           <label for="title" class="col-md-4 col-form-label">{{ __('Title') }}</label>
-            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') ?? $user->profile->title }}" required autocomplete="title" />
+            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') ?? $user->profile->title }}" />
     
             @error('title')
                 <span class="invalid-feedback" role="alert">
@@ -30,7 +30,7 @@
         <div class="form-group row">
           
           <label for="description" class="col-md-4 col-form-label">{{ __('Description') }}</label>
-            <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') ?? $user->profile->description }}" required autocomplete="description" />
+            <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') ?? $user->profile->description }}" />
     
             @error('description')
                 <span class="invalid-feedback" role="alert">
@@ -43,7 +43,7 @@
         <div class="form-group row">
           
           <label for="url" class="col-md-4 col-form-label">{{ __('URL') }}</label>
-            <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') ?? $user->profile->url}}" required autocomplete="url" />
+            <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') ?? $user->profile->url}}" />
     
             @error('url')
                 <span class="invalid-feedback" role="alert">
@@ -55,18 +55,16 @@
 
         <div class="row">
           <label for="image" class="col-md-4 col-form-label">{{ __('Profile Image') }}</label>
-          <input type="file" class="form-control-file @error('caption') is-invalid @enderror" value="{{ old('image') }}" required id="image" name="image" />
+          <input type="file" class="form-control-file @error('caption') is-invalid @enderror" value="{{ old('image') }}" id="image" name="image" />
 
           @error('image')
               <strong>{{ $message }}</strong>
           @enderror
-
-      </div>
+        </div>
 
         <div class="row pt-4">
             <button class="btn btn-primary">Save profile</button>
-        </div>
-        
+        </div>        
 
       </div>
 
