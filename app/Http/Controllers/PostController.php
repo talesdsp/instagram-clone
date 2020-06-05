@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Post;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -13,13 +15,22 @@ class PostController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $usersIFollow = auth()->user()->following()->pluck('profiles.user_id');
+
+        $posts = Post::whereIn('user_id', $usersIFollow)->with('user')->latest()->paginate(5);
+
+        return view('posts\index', ['posts'=> $posts]);
+    }
+
     public function create()
     {
         return view('posts\create');
     }
 
     public function store()
-    {
+    {   
         $data = request()->validate([
             'caption' => 'required',
             'image' => ['required','image'],
@@ -43,12 +54,12 @@ class PostController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect('/', auth()->user()->id);
+        return redirect('/', auth()->user()->username);
     }
 
-    public function show(\App\Post $post_id)
+    public function show(Post $post)
     {
-        return view('posts\show', ['post'=> $post_id]);
+        return view('posts\show', ['post'=> $post]);
     }
 
 }
