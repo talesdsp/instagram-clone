@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\NewUserWelcomeMail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
+
+
+
+Route::get('/mail', function (){
+  return new NewUserWelcomeMail();
+});
 
 /**----------------------------------
  **             FOLLOWERS
