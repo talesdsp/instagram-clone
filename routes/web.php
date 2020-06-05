@@ -13,15 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 
 /**----------------------------------
  **             FOLLOWERS
@@ -46,7 +39,7 @@ Route::post('/follow/{username}', "FollowsController@store")->name('follow.store
  *  All routes related to profile page
  */
 
- 
+
 // GET - user's profile page aka `dashboard`
 Route::get('/{username}', 'ProfileController@show')->name('profile.show');
 
@@ -62,10 +55,14 @@ Route::patch('/{username}', 'ProfileController@update')->name('profile.update');
 
 
 /**----------------------------------
- **             POST
+ **             POSTS
  *-----------------------------------
  *  All routes related to post
  */
+
+
+// GET - list of posts
+Route::get('/', 'PostController@index')->name('post.index');
 
 
 // GET - form to create post
@@ -77,5 +74,5 @@ Route::post("/p", "PostController@store")->name('post.store');
 
 
 // GET - clicked post
-Route::get('/p/{post_id}', 'PostController@show')->name('post.show');
+Route::get('/p/{post}', 'PostController@show')->name('post.show');
 
