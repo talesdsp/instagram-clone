@@ -10,17 +10,18 @@ use Intervention\Image\Facades\Image;
 class ProfileController extends Controller
 {
 
-    public function show(User $user)
+    public function show($user)
     { 
-        return view('profiles\show', ['user' => $user]);
+        $follows = (auth()->user()) ? auth()->user()->following->contains($user->profile) : false;
+        return view('profiles\show', compact('user', 'follows',));
     }
 
-    public function edit(User $user)
+    public function edit($user)
     {
         return view('profiles\edit', ['user' => $user]);
     }
 
-    public function update(User $user)
+    public function update($user)
     {
         
         $this->authorize('update', $user->profile);
@@ -47,10 +48,12 @@ class ProfileController extends Controller
             $imagePath = request('image')->store('profile', $driver);
             $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
             $image->save();
+            $imageArray = ['image'=>$imagePath];
         }
 
         //* then create profile
-        auth()->user()->profile->update(array_merge($data, ['image'=>$imagePath ?? null]));
+        auth()->user()->profile->update(array_merge($data, $imageArray ?? []));
+        
         return redirect("/{$user->username}");
     }
 }

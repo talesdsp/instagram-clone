@@ -17,10 +17,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+/**----------------------------------
+ **             FOLLOWERS
+ *-----------------------------------
+ *  All routes related to follow
+ */
+
+
+// GET - fresh followers count 
+Route::get('/follow/{username}', "FollowsController@index")->name('follow.index');
+
+
+// POST - new follower
+Route::post('/follow/{username}', "FollowsController@store")->name('follow.store');
 
 
 
