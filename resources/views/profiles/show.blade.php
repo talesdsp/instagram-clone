@@ -8,16 +8,34 @@
         </div>
         <div class="col-9">
             <div class="bio d-flex justify-content-between align-items-baseline">
-                <h1>{{$user->username}}</h1>
-                <a href="/p/create">add new post</a>
-            </div>
+                
+                <div class="d-flex align-items-center py-3">
+                    <h3>{{$user->username}}</h3>
+                    @if ((auth()->user() && $user->id != auth()->user()->id) ||!auth()->user())
+                        <div id="follow-button" data-follows="{{$follows}}" data-username="{{$user->username}}"></div>
+                    @endif
+                </div>
 
-        <a href="/{{$user->username}}/edit">Edit Profile</a>
+                @can('update', $user->profile)
+                    <a href="/p/create">New</a>
+                @endcan
+
+            </div>
+            
+            @can('update', $user->profile)
+                <a href="/{{$user->username}}/edit">Edit Profile</a>
+            @endcan
 
             <div class="d-flex">
-                <div class="pr-5"><strong>{{$user->posts->count()}}</strong> posts</div>
-                <div class="pr-5"><strong>4k</strong> followers</div>
-                <div class="pr-5"><strong>821</strong> following</div>
+                <div class="pr-5">
+                    <strong>{{$user->posts->count()}}</strong> posts
+                </div>
+                <div id="followers" class="pr-5">
+                    <strong>{{$user->profile->followers->count()}}</strong> followers
+                </div>
+                <div class="pr-5">
+                    <strong>{{$user->following->count()}}</strong> following
+                </div>
             </div>
 
             <div class="pt-4 font-weight-bold">{{$user->profile->title ?? ''}}</div>
