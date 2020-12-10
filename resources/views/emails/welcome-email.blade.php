@@ -1,9 +1,9 @@
 @component('mail::message')
-# Welcome to 
+# Welcome to {{ config('app.name') }}!
 
-The body of your message.
+We are very happy to see you here!
 
-@component('mail::button', ['url' => '#'])
+@component('mail::button', ['url' => 'http://localhost:8000'])
 Confirm
 @endcomponent
 
