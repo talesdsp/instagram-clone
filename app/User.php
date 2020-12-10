@@ -3,9 +3,11 @@
 namespace App;
 
 use App\Mail\NewUserWelcomeMail;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password',
+        'full_name','email', 'username', 'password',
     ];
 
     /**
@@ -43,19 +45,13 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::created(function($user){
+        static::created(function ($user) {
             $user->profile()->create([
-                'title'=>$user->username,
+                'title' => $user->username,
             ]);
-            
+
             Mail::to($user->email)->send(new NewUserWelcomeMail());
-
         });
-    }
-
-    public function posts()
-    {
-        return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
     }
 
     public function profile()
@@ -63,9 +59,47 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function stories()
+    {
+        return $this->hasMany(Story::class);
+    }
+
+
+    // PIVOTS
+    public function watchedStories()
+    {
+        return $this->belongsToMany(Story::class, 'user_sees_story')->withTimestamps();
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Post::class, 'user_favorites_post')->withTimestamps()->orderBy('user_favorites_post.created_at', 'DESC');
+    }
+
     public function following()
     {
-        return $this->belongsToMany(Profile::class);
+        return $this->belongsToMany(Profile::class, 'user_follows_profile')->withTimestamps()->orderBy('user_follows_profile.created_at', 'DESC');
     }
-    
+
+    public function likePost()
+    {
+        return $this->belongsToMany(Post::class, 'user_likes_post')->withTimestamps();
+    }
+
+    public function likeComment()
+    {
+        return $this->belongsToMany(Comment::class, 'user_likes_comment')->withTimestamps();
+    }
+
+
 }
