@@ -32,8 +32,20 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::bind('username', function ( $username ){
-            return \App\User::whereUsername($username)->firstOrFail( );
+        Route::bind('username', function ($username) {
+            return \App\User::whereUsername($username)->firstOrFail();
+        });
+
+        Route::bind('post', function ($postId) {
+            return \App\Post::findOrFail($postId);
+        });
+
+        Route::bind('story', function ($storyId) {
+            return \App\Story::findOrFail($storyId);
+        });
+
+        Route::bind('comment', function ($commentId) {
+            return \App\Comment::findOrFail($commentId);
         });
     }
 

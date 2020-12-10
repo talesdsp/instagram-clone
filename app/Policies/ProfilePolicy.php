@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Profile;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class ProfilePolicy
 {
@@ -18,7 +19,6 @@ class ProfilePolicy
      */
     public function viewAny(User $user)
     {
-        //
     }
 
     /**
@@ -28,9 +28,9 @@ class ProfilePolicy
      * @param  \App\Profile  $profile
      * @return mixed
      */
-    public function view(User $user, Profile $profile)
+    public function view(?User $user, Profile $profile)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,6 @@ class ProfilePolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
@@ -65,7 +64,7 @@ class ProfilePolicy
      */
     public function delete(User $user, Profile $profile)
     {
-        //
+        return $user->id == $profile->user_id;
     }
 
     /**

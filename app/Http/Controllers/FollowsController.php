@@ -13,12 +13,12 @@ class FollowsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index($user)
+    public function index(User $user)
     {
         return $user->profile->followers->count();
     }
 
-    public function store($user)
+    public function store(User $user)
     {
         return auth()->user()->following()->toggle($user->profile);
     }
