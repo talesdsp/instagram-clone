@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatesProfileUserPivotTable extends Migration
+class CreateUserLikesCommentPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreatesProfileUserPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile_user', function (Blueprint $table) {
+        Schema::create('user_likes_comment', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('profile_id');
+            $table->foreignId('comment_id');
             $table->foreignId('user_id');
             $table->timestamps();
+            $table->index('comment_id');
+            $table->index('user_id');
         });
     }
 
@@ -28,6 +30,6 @@ class CreatesProfileUserPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profile_user');
+        Schema::dropIfExists('user_likes_comment');
     }
 }

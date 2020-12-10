@@ -16,12 +16,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->text('caption');
+            $table->string('caption', 600);
             $table->string('image');
             $table->timestamps();
             $table->index('user_id');
         });
     }
+
 
     /**
      * Reverse the migrations.

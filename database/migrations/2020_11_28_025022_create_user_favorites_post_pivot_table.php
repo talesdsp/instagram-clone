@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilesTable extends Migration
+class CreateUserFavoritesPostPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('user_favorites_post', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('post_id');
             $table->foreignId('user_id');
-            $table->string('name', 40)->nullable();
-            $table->string('bio', 150)->nullable();
-            $table->string('url')->nullable();
-            $table->string('image', 100)->default("profile/9urmwoiffoe8fum8effisehfefjaw98ummffefc4hlw7.jpeg");
             $table->timestamps();
+            $table->index('post_id');
             $table->index('user_id');
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -31,6 +30,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('user_favorites_post');
     }
 }
