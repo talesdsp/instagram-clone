@@ -1,15 +1,48 @@
 /**
  * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
  */
 
 require("./bootstrap");
 
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+window.Vue = require("vue");
 
-require("./components/FollowButton");
+const store = require("./store");
+
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+// const components = require.context(".", true, /\.vue$/i);
+// components.keys().map(key =>
+//   Vue.component(
+//     key
+//       .split("/")
+//       .pop()
+//       .split(".")[0],
+//     components(key).default || components(key)
+//   )
+// );
+import * as components from "./components";
+
+Vue.config.devtools = true;
+
+const app = new Vue({
+  el: "#app",
+  mounted() {
+    delete window.post;
+  },
+  data() {
+    return {
+      post: window.post
+    };
+  },
+  store,
+  components: {
+    ...components
+  }
+});
