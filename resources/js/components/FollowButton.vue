@@ -52,3 +52,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.btn {
+  margin-right: 0;
+}
+</style>

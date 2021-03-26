@@ -44,9 +44,9 @@ export default {
 <style lang="scss">
 .profile-wrapper {
   right: 0%;
+  display: none;
   position: absolute;
   top: 205px;
-  display: flex;
   flex-direction: column;
 }
 
@@ -64,13 +64,14 @@ export default {
 
 @media (min-width: 768px) {
   .profile-wrapper {
+    display: flex;
     right: 5%;
   }
 }
 
 @media (min-width: 1200px) {
   .profile-wrapper {
-    right: 10%;
+    right: 15%;
   }
 }
 </style>

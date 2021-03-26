@@ -14,6 +14,7 @@
           bottom: '-20px',
           fontWeight: 'bold',
           left: '0',
+          textAlign: 'center',
           right: 0,
           width: 'min-content',
           margin: '0 auto',
@@ -31,7 +32,9 @@
             :class="{ '--active': bar == i }"
             v-for="(storyBar, i) in bars"
             :key="i"
-          ></span>
+          >
+            <span></span>
+          </span>
         </div>
         <div
           class="profile-info mb-2"
@@ -39,13 +42,7 @@
         >
           <img :src="'/storage/' + profile.image" />{{ profile.user.username }}
         </div>
-        <div
-          @pointerdown="pauseTime"
-          @mouseover="pauseTime"
-          @pointerleave="resumeTime"
-          @pointerup="resumeTime"
-          class="story-player"
-        >
+        <div @click="nextStory" class="story-player">
           <video
             v-if="profile.user_stories[bar].type == 'video'"
             :src="'/storage/' + profile.user_stories[bar].story"
@@ -103,7 +100,12 @@ export default {
     },
     activateTimer() {
       // set "slide time" to 5 seconds, with being possibly paused on mousedown and resumed on mouseup
-      this.timer = setInterval(() => (this.counter -= 1), 1000);
+      this.timer = setInterval(() => {
+        const el = document.querySelector(".--active > span");
+        el.style.transform = `translateX(-${25 * this.counter - 50}%)`;
+
+        this.counter -= 1;
+      }, 1000);
     },
     pauseTime() {
       clearTimeout(this.timer);
@@ -117,7 +119,7 @@ export default {
       this.bars = p.user_stories.length;
 
       if (notWatched.length == 0) this.bar = 0;
-      else this.bar = this.bars - notWatched.length - 1;
+      else this.bar = this.bars - notWatched.length;
 
       this.currentStory = true;
       this.profile = p;
@@ -132,6 +134,9 @@ export default {
     },
     nextStory() {
       clearInterval(this.timer);
+      const els = document.querySelectorAll(".story-bar > span");
+      els.forEach((el) => (el.style.transform = `translateX(-100%)`));
+
       this.counter = 5;
       const isLastBar = this.profile.user_stories.length - 1 == this.bar;
 
@@ -202,6 +207,14 @@ export default {
   transition: all 200ms ease;
 }
 
+@keyframes progress-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: initial;
+  }
+}
 .story-bar {
   transition: all 200ms ease;
   flex: 1;
@@ -209,9 +222,19 @@ export default {
   border-radius: 5px;
   margin: 0 10px;
   background: #777;
+  overflow: hidden;
 
+  span {
+    transform: translateX(-100%);
+  }
   &.--active {
-    background: #ddd;
+    span {
+      width: 100%;
+      display: block;
+      height: 2px;
+      background: #ddd;
+      transition: transform 990ms linear;
+    }
   }
 }
 
@@ -227,7 +250,7 @@ export default {
 }
 .stories-card {
   display: flex;
-  margin: auto;
+  margin: 20px auto auto;
   flex-direction: column;
   width: 100%;
   max-width: 800px;
@@ -248,9 +271,14 @@ export default {
   }
 
   .story-player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     & > img,
     & > video {
+      max-width: 100vh;
       width: 100%;
+      max-height: 80vh;
       object-fit: contain;
     }
   }

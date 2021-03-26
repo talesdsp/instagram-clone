@@ -18,27 +18,27 @@ class ProfileController extends Controller
     {
         $follows = (auth()->user()) ? auth()->user()->following->contains($user->profile) : false;
 
-        $postCount = Cache::remember('count.posts.' . $user->id, now()->addSeconds(60), function () use ($user) {
+        $postCount = Cache::remember('count.posts.' . $user->id, now()->addSeconds(30), function () use ($user) {
             return $user->posts->count();
         });
 
-        $followersCount = Cache::remember('count.followers.' . $user->id, now()->addSeconds(120), function () use ($user) {
+        $followersCount = Cache::remember('count.followers.' . $user->id, now()->addSeconds(30), function () use ($user) {
             return $user->profile->followers->count();
         });
 
-        $followingCount = Cache::remember('count.following.' . $user->id, now()->addSeconds(120), function () use ($user) {
+        $followingCount = Cache::remember('count.following.' . $user->id, now()->addSeconds(30), function () use ($user) {
             return $user->following->count();
         });
 
         $user->profile = $user->profile;
 
-        $stories = Story::where([['user_id','=', $user->id],['created_at','>=', Story::getTime()]])->with(['user:users.id,username','userProfile:profiles.id,profiles.user_id,image'])->with('watchedBy', function($q){
+        $stories = Story::where([['user_id', '=', $user->id], ['created_at', '>=', Story::getTime()]])->with(['user:users.id,username', 'userProfile:profiles.id,profiles.user_id,image'])->with('watchedBy', function ($q) {
             $q->where('user_sees_story.user_id', auth()->user()->id)->select('user_sees_story.user_id');
         })->get()->toArray();
 
         $posts = Post::where("user_id", $user->id)->latest()->get();
 
-        return view('profiles\show', compact('posts','user', 'follows', 'postCount', 'followersCount', 'followingCount', 'stories'));
+        return view('profiles\show', compact('posts', 'user', 'follows', 'postCount', 'followersCount', 'followingCount', 'stories'));
     }
 
     public function edit(User $user)

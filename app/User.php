@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -43,14 +44,18 @@ class User extends Authenticatable
 
     protected static function boot()
     {
+
+
         parent::boot();
 
         static::created(function ($user) {
             $user->profile()->create([
-                'title' => $user->username,
-            ]);
+                'name' => $user->username,
+                ]);
 
-            Mail::to($user->email)->send(new NewUserWelcomeMail());
+            if(env('APP_ENV') == 'production'){
+                Mail::to($user->email)->send(new NewUserWelcomeMail());
+            }
         });
     }
 

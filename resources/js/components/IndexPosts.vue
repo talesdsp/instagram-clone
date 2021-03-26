@@ -54,30 +54,41 @@
 </template>
 
 <script>
-import { PostActions } from '../store/modules/posts'
-import ActionIcons from './ActionIcons.vue'
+import { PostActions } from "../store/modules/posts";
+import ActionIcons from "./ActionIcons.vue";
 
 export default {
   name: "index-posts",
   components: {
-    ActionIcons
+    ActionIcons,
   },
-  props: ['posts'],
+  props: ["posts"],
   created() {
-    this.$store.default.dispatch(PostActions.SET, { posts: this.posts.data })
+    this.$store.default.dispatch(PostActions.SET, { posts: this.posts.data });
   },
   data() {
     return {
-      postList: this.$store.default.getters.getPosts
-    }
+      postList: this.$store.default.getters.getPosts,
+    };
   },
   methods: {
     goto(url) {
-      window.location = '/p/' + url
-    }
-  }
-}
+      window.location = "/p/" + url;
+    },
+  },
+};
 </script>
 
 <style>
+@media (min-width: 768px) {
+  .container {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    margin-left: auto;
+  }
+}
 </style>

@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->foreignId('post_id');
             $table->foreignId('user_id');
             $table->foreignId("comment_id")->default(0);
-            $table->string('text', 300);
+            $table->string('text',300);
             $table->boolean('edited')->default(false);
             $table->timestamps();
             $table->index('post_id');

@@ -35,6 +35,11 @@ class Post extends Model
         return $this->hasMany(Comment::class)->where('comment_id', 0);
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'user_favorites_post')->orderBy('user_favorites_post.created_at', 'DESC');
+    }
+
     public function likes()
     {
         return $this->belongsToMany(User::class, 'user_likes_post')->orderBy('user_likes_post.created_at', 'DESC');

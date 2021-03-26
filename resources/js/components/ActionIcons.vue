@@ -23,24 +23,21 @@
 
 
 <script>
-import { FavoriteActions } from '../store/modules/favorites'
+import { FavoriteActions } from "../store/modules/favorites";
 
 export default {
-  name: 'action-icons',
-  props: ['post'],
+  name: "action-icons",
+  props: ["post"],
   methods: {
     renderImage: function (name, liked) {
-
-      return `/storage/svgs/${name}${liked ? '-active' : ''}.svg`
+      return `/storage/svgs/${name}${liked ? "-active" : ""}.svg`;
     },
     openComment() {
-      this.$emit("openComment", { type: "store", comment_id: 0 })
+      this.$emit("openComment", { type: "store", comment_id: 0 });
     },
     likePost(e) {
       try {
-
-        this.$emit('liked', this.post.id)
-
+        this.$emit("liked", this.post.id);
 
         const img = e.target;
         if (this.post.liked == 1) {
@@ -49,20 +46,21 @@ export default {
           img.classList.add("liked");
         }
 
-        img.src = this.renderImage('heart', img.classList.contains("liked"));
+        img.src = this.renderImage("heart", img.classList.contains("liked"));
       } catch (error) {
-        console.log('banana', error)
+        console.log("banana", error);
       }
     },
     bookmark(e) {
       const img = e.target;
       img.classList.toggle("liked");
-      img.src = this.renderImage('bookmark', img.classList.contains("liked"));
-      this.$store.default.dispatch(Favorites.TOGGLE, { id: this.post.id })
+      img.src = this.renderImage("bookmark", img.classList.contains("liked"));
+      this.$store.default.dispatch(FavoriteActions.TOGGLE, {
+        id: this.post.id,
+      });
     },
-  }
-}
-
+  },
+};
 </script>
 
 <style lang="scss" >
